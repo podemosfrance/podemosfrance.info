@@ -1,0 +1,97 @@
+
+
+
+
+
+
+
+
+
+
+#: options/options.php:697
+msgid "Export Options"
+msgstr ""
+
+#: options/options.php:699
+msgid ""
+"Here, you can export and download your current options settings.  Keep this "
+"safe, as you can use it for backup in case of an emergency.  You can also "
+"use this to restore settings on this site, or on any other site using this "
+"theme.  You can also copy the link to your settings, and duplicate it to "
+"another site, which is useful if you have a network of blogs that all need "
+"the same settings."
+msgstr ""
+
+#: options/options.php:752
+msgid "Reset to Defaults"
+msgstr ""
+
+#: options/options.php:753
+msgid "Save Changes"
+msgstr ""
+----------------------
+
+
+
+
+#: options/fields/color_gradient/field_color_gradient.php:35
+msgid "From:"
+msgstr ""
+
+#: options/fields/color_gradient/field_color_gradient.php:38
+msgid " To:"
+msgstr ""
+
+#: options/fields/multi_text/field_multi_text.php:39
+#: options/fields/multi_text/field_multi_text.php:46
+#: options/fields/multi_text/field_multi_text.php:50
+msgid "Remove"
+msgstr ""
+
+#: options/fields/multi_text/field_multi_text.php:54
+msgid "Add More"
+msgstr ""
+
+#: options/fields/upload/field_upload.php:39
+msgid "Browse"
+msgstr ""
+
+#: options/fields/upload/field_upload.php:40
+msgid "Remove Upload"
+msgstr ""
+
+#: options/validation/color/validation_color.php:15
+msgid "This field must be a valid color value."
+msgstr ""
+
+#: options/validation/comma_numeric/validation_comma_numeric.php:15
+msgid ""
+"You must provide a comma seperated list of numerical values for this option."
+msgstr ""
+
+#: options/validation/date/validation_date.php:15
+msgid "This field must be a valid date."
+msgstr ""
+
+#: options/validation/email/validation_email.php:15
+msgid "You must provide a valid email for this option."
+msgstr ""
+
+#: options/validation/no_html/validation_no_html.php:15
+msgid ""
+"You must not enter any HTML in this field, all HTML tags have been removed."
+msgstr ""
+
+#: options/validation/no_special_chars/validation_no_special_chars.php:15
+msgid ""
+"You must not enter any special characters in this field, all special "
+"characters have been removed."
+msgstr ""
+
+#: options/validation/numeric/validation_numeric.php:15
+msgid "You must provide a numerical value for this option."
+msgstr ""
+
+#: options/validation/url/validation_url.php:15
+msgid "You must provide a valid URL for this option."
+msgstr ""

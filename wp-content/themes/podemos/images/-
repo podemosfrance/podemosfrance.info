@@ -1,0 +1,16 @@
+--2014-07-14 20:53:27--  https://trello-attachments.s3.amazonaws.com/53c39829b3511b9c07833e7d/53c40ab8c5161d2053f0ff91/3750x571/59c57ef66098e2c8a75b143793e6ae5f/bannierepodemoslarge.png
+Resolving trello-attachments.s3.amazonaws.com (trello-attachments.s3.amazonaws.com)... 176.32.102.57
+Connecting to trello-attachments.s3.amazonaws.com (trello-attachments.s3.amazonaws.com)|176.32.102.57|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 293833 (287K) [image/png]
+Saving to: ‘bannierepodemoslarge.png’
+
+     0K .......... .......... .......... .......... .......... 17%  297K 1s
+    50K .......... .......... .......... .......... .......... 34%  597K 0s
+   100K .......... .......... .......... .......... .......... 52%  598K 0s
+   150K .......... .......... .......... .......... .......... 69% 9.58M 0s
+   200K .......... .......... .......... .......... .......... 87%  613K 0s
+   250K .......... .......... .......... ......               100% 27.2M=0.4s
+
+2014-07-14 20:53:28 (678 KB/s) - ‘bannierepodemoslarge.png’ saved [293833/293833]
+
