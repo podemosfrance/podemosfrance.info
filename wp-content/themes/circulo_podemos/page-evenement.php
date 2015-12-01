@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Evento
+ * Template Name: Evenement
  *
  * @package 	WordPress
  * @subpackage 	Starkers
@@ -12,9 +12,9 @@
 <section id="main_content" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
 		<div class="container">
 			<section class="last_events clearfix">
-				<h3 class="section_title">Últimos Eventos</h3>
+				<h3 class="section_title">Derniers évènements</h3>
 				<?php $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-				$args = array( 'post_type' => 'evento', 'posts_per_page' => 10, 'paged' => $paged, 'orderby'=>'date' );
+				$args = array( 'post_type' => 'evenement', 'posts_per_page' => 10, 'paged' => $paged, 'orderby'=>'date' );
 				$wp_query = new WP_Query($args);
 				while ( have_posts() ) : the_post(); ?>
 					<article class="post event" itemscope itemtype="http://schema.org/Event">
@@ -40,7 +40,7 @@
 								<?php if ($fecha_fin) { ?><meta itemprop="endDate" content="<?php echo $fecha_fin ?>"><?php  } ?>
 								<?php if ( ($fecha_inicio) || ($fecha_fin) ) { ?><time class="icon date"><?php echo $fecha_inicio ?> - <?php echo $fecha_fin ?></time> <?php  } ?>
 								<?php if ( ($hora_inicio) || ($hora_fin) ) { ?><time class="icon clock"><?php echo $hora_inicio ?> - <?php echo $hora_fin ?></time><?php  } ?>
-								<?php if ($url_mapa) { ?><a target="_blank" class="icon url" itemprop="url" href="<?php echo $url_mapa ?>">Mapa</a><?php  } ?>
+								<?php if ($url_mapa) { ?><a target="_blank" class="icon url" itemprop="url" href="<?php echo $url_mapa ?>">Carte</a><?php  } ?>
 								<address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 									<?php if ($direccion_postal) { ?><span class="icon location" itemprop="streetAddress"><?php echo $direccion_postal ?></span><?php  } ?>
 									<?php if ($codigo_postal) { ?><span itemprop="postalCode"><?php echo $codigo_postal ?> - </span><?php  } ?><?php if ($localidad) { ?><span itemprop="addressLocality"><?php echo $localidad ?></span><?php  } ?>,  <?php if ($provincia) { ?><span itemprop="addressRegion"><?php echo $provincia ?></span><?php  } ?>
@@ -53,8 +53,8 @@
 			<?php if (!previous_posts_link){ ?>
 			<!-- Condicional para que no salga este código en caso de que no sea necesario -->
 			<nav class="page_nav" role="navigation">
-				<div class="previous"><?php previous_posts_link( 'Anteriores' ); ?></div>
-				<div class="next"><?php next_posts_link( 'Siguientes', '' ); ?></div>
+				<div class="previous"><?php previous_posts_link( 'Précédents' ); ?></div>
+				<div class="next"><?php next_posts_link( 'Siguientes', 'Suivants' ); ?></div>
 			</nav>
 			<?php }?>
 		</div>

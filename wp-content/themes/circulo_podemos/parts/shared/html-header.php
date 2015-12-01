@@ -24,10 +24,13 @@
   <?php
       $postTags = get_the_tags();
       $tagNames = array();
-      foreach($postTags as $tag)
+      if (!empty($postTags))
       {
-          $tagNames[] = $tag->name;
-      }
+          foreach($postTags as $tag)
+          {
+              $tagNames[] = $tag->name;
+          }
+     }
   ?>
   <meta name="keywords" content="<?php echo implode($tagNames,", "); ?>" />
 

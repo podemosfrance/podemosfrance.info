@@ -41,10 +41,10 @@
 			<?php endif; ?>
 			<a href="/blog" class="button" title="Voir plus d'information">Voir plus d'information</a>
 		</section>
-		<?php $args = array( 'post_type' => 'evento', 'posts_per_page' => 4 ); ?>
+		<?php $args = array( 'post_type' => 'evenement', 'posts_per_page' => 4 ); ?>
 		<?php $loop = new WP_Query( $args ); ?>
-		<?php  $existe_evento=$loop->have_posts();
-		if ($existe_evento){ ?>
+		<?php  $existe_evenement=$loop->have_posts();
+		if ($existe_evenement){ ?>
 			<section class="last_events clearfix">
 				<h3 class="section_title"><a href="/evenements" title="Derniers évènements">Derniers évènements</a></h3>
 				<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>

@@ -269,29 +269,29 @@
       add_action('edit_user_profile_update', 'guardar_campos_usuarios');
 
 
-      /* Custom Post Type Evento and Custom Fields
+      /* Custom Post Type Envenment and Custom Fields
         ================================================== */
 
       function custom_post_type() {
 
         $labels = array(
-          'name'                => _x( 'Eventos', 'Post Type General Name', 'text_domain' ),
-          'singular_name'       => _x( 'Evento', 'Post Type Singular Name', 'text_domain' ),
-          'menu_name'           => __( 'Evento', 'text_domain' ),
-          'parent_item_colon'   => __( 'Eventos padre:', 'text_domain' ),
-          'all_items'           => __( 'Todos los eventos', 'text_domain' ),
-          'view_item'           => __( 'Ver evento', 'text_domain' ),
-          'add_new_item'        => __( 'Añadir nuevo evento', 'text_domain' ),
-          'add_new'             => __( 'Añadir nuevo ', 'text_domain' ),
-          'edit_item'           => __( 'Editar evento', 'text_domain' ),
-          'update_item'         => __( 'Actualizar evento', 'text_domain' ),
-          'search_items'        => __( 'Buscar evento', 'text_domain' ),
-          'not_found'           => __( 'Evento no encontrado', 'text_domain' ),
-          'not_found_in_trash'  => __( 'Evento no encontrado en la papelera', 'text_domain' ),
+          'name'                => _x( 'Evenement', 'Post Type General Name', 'text_domain' ),
+          'singular_name'       => _x( 'Evenement', 'Post Type Singular Name', 'text_domain' ),
+          'menu_name'           => __( 'Evenement', 'text_domain' ),
+          'parent_item_colon'   => __( 'Evenements parents:', 'text_domain' ),
+          'all_items'           => __( 'Tous les évènements', 'text_domain' ),
+          'view_item'           => __( 'Voir évènement', 'text_domain' ),
+          'add_new_item'        => __( 'Ajouter un nouvel évènement', 'text_domain' ),
+          'add_new'             => __( 'Ajouter nouveau ', 'text_domain' ),
+          'edit_item'           => __( 'Editer évènement', 'text_domain' ),
+          'update_item'         => __( 'Actualisé évènement', 'text_domain' ),
+          'search_items'        => __( 'Chercher évènement', 'text_domain' ),
+          'not_found'           => __( 'Aucun évènement', 'text_domain' ),
+          'not_found_in_trash'  => __( 'Aucun évènement dans la corbeille', 'text_domain' ),
         );
         $args = array(
-          'label'               => __( 'evento', 'text_domain' ),
-          'description'         => __( 'Post de tipo evento', 'text_domain' ),
+          'label'               => __( 'evenement', 'text_domain' ),
+          'description'         => __( 'Post de type évènement', 'text_domain' ),
           'labels'              => $labels,
           'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'revisions', ),
           'taxonomies'          => array( 'category', 'post_tag' ),
@@ -309,17 +309,17 @@
           'publicly_queryable'  => true,
           'capability_type'     => 'post',
         );
-        register_post_type( 'evento', $args );
+        register_post_type( 'evenement', $args );
 
       }
 
       add_action( 'init', 'custom_post_type', 0 );
 
       function customtypes_add_meta_box() {
-        $screens = array('evento');
+        $screens = array('evenement');
         foreach ($screens as $screen) {
           add_meta_box(
-          'customtypes_sectionid', __('Datos del evento', 'customtypes_textdomain'), 'customtypes_meta_box_callback', $screen
+          'customtypes_sectionid', __('Information de l\'évènement', 'customtypes_textdomain'), 'customtypes_meta_box_callback', $screen
           );
         }
       }
@@ -331,17 +331,17 @@
         wp_nonce_field('customtypes_meta_box', 'customtypes_meta_box_nonce');
 
 
-        //Fecha Inicio
+        //Date Début
         $value = get_post_meta($post->ID, 'fecha_inicio', true);
         echo '<label class="label-custom_type" for="fecha_inicio">';
-        _e('Fecha de Inicio del Evento:  ', 'customtypes_textdomain');
+        _e('Date de début de l\'évènement:  ', 'customtypes_textdomain');
         echo '</label> ';
         echo '<input class="input-custom_type required" type="date" id="fecha_inicio" name="fecha_inicio" value="' . esc_attr($value) . '"  /><br>';
 
-        //Fecha Fin
+        //Date Fin
         $value = get_post_meta($post->ID, 'fecha_fin', true);
         echo '<label class="label-custom_type" for="fecha_fin">';
-        _e('Fecha de Fin del Evento:  ', 'customtypes_textdomain');
+        _e('Date de fin de l\'évènement:  ', 'customtypes_textdomain');
         echo '</label> ';
         echo '<input class="input-custom_type required" type="date" id="fecha_fin" name="fecha_fin" value="' . esc_attr($value) . '"  /><br>';
 
@@ -352,48 +352,47 @@
         echo '</label> ';
         echo '<input class="input-custom_type required" type="text" id="url_mapa" name="url_mapa" value="' . esc_attr($value) . '"  /><br>';
 
-        //Hora Inicio
+        //Heure début
         $value = get_post_meta($post->ID, 'hora_inicio', true);
         echo '<label class="label-custom_type" for="hora_inicio">';
-        _e('Hora de Inicio:  ', 'customtypes_textdomain');
+        _e('Heure de début:  ', 'customtypes_textdomain');
         echo '</label> ';
         echo '<input class="input-custom_type required" type="text" id="hora_inicio" name="hora_inicio" value="' . esc_attr($value) . '"  /><br>';
 
-        //Hora Fin
+        //Heure de fin
         $value = get_post_meta($post->ID, 'hora_fin', true);
         echo '<label class="label-custom_type" for="hora_fin">';
-        _e('Hora de Fin:  ', 'customtypes_textdomain');
+        _e('Heure de fin:  ', 'customtypes_textdomain');
         echo '</label> ';
         echo '<input class="input-custom_type required" type="text" id="hora_fin" name="hora_fin" value="' . esc_attr($value) . '"  /><br>';
 
-        //Direccion Postal
+        //Adresse Postale
         $value = get_post_meta($post->ID, 'direccion_postal', true);
         echo '<label class="label-custom_type" for="direccion_postal">';
-        _e('Dirección Postal:  ', 'customtypes_textdomain');
+        _e('Adresse postale :  ', 'customtypes_textdomain');
         echo '</label> ';
-        echo '<input class="input-custom_type required" type="text" id="direccion_postal" name="direccion_postal" value="' . esc_attr($value) . '" placeholder="Calle Zurita,  17" /><br>';
+        echo '<input class="input-custom_type required" type="text" id="direccion_postal" name="direccion_postal" value="' . esc_attr($value) . '" placeholder="1 Rue Jean Jaurès" /><br>';
 
-        //Localidad
-        $value = get_post_meta($post->ID, 'localidad', true);
-        echo '<label class="label-custom_type" for="localidad">';
-        _e('Localidad:  ', 'customtypes_textdomain');
-        echo '</label> ';
-        echo '<input class="input-custom_type required" type="text" id="localidad" name="localidad" value="' . esc_attr($value) . '" placeholder="Altea" /><br>';
-
-        //Provincia
-        $value = get_post_meta($post->ID, 'provincia', true);
-        echo '<label class="label-custom_type" for="provincia">';
-        _e('Provincia:  ', 'customtypes_textdomain');
-        echo '</label> ';
-        echo '<input class="input-custom_type required" type="text" id="provincia" name="provincia" value="' . esc_attr($value) . '" placeholder="Alicante" /><br>';
-
-        //Código Postal
+        //Code postal
         $value = get_post_meta($post->ID, 'codigo_postal', true);
         echo '<label class="label-custom_type" for="codigo_postal">';
-        _e('Código Postal:  ', 'customtypes_textdomain');
+        _e('Code posdtal:  ', 'customtypes_textdomain');
         echo '</label> ';
-        echo '<input class="input-custom_type required" type="text" id="codigo_postal" name="codigo_postal" value="' . esc_attr($value) . '" placeholder="03590" /><br>';
+        echo '<input class="input-custom_type required" type="text" id="codigo_postal" name="codigo_postal" value="' . esc_attr($value) . '" placeholder="34000" /><br>';
 
+        //Ville
+        $value = get_post_meta($post->ID, 'localidad', true);
+        echo '<label class="label-custom_type" for="localidad">';
+        _e('Ville:  ', 'customtypes_textdomain');
+        echo '</label> ';
+        echo '<input class="input-custom_type required" type="text" id="localidad" name="localidad" value="' . esc_attr($value) . '" placeholder="Montpellier" /><br>';
+
+        //Département
+        $value = get_post_meta($post->ID, 'provincia', true);
+        echo '<label class="label-custom_type" for="provincia">';
+        _e('Département:  ', 'customtypes_textdomain');
+        echo '</label> ';
+        echo '<input class="input-custom_type required" type="text" id="provincia" name="provincia" value="' . esc_attr($value) . '" placeholder="Hérault" /><br>';
 
       }
 
