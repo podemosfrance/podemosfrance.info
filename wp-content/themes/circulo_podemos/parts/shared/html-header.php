@@ -45,14 +45,24 @@
 
   <!-- Facebook Metadata /-->
   <meta property="fb:page_id" content="<?php bloginfo( 'name' ); ?><?php wp_title( '|' ); ?>" />
-  <meta property="og:image" content="<?php echo get_stylesheet_directory_uri(); ?>/img/thumbnail.jpg" />
-  <meta property="og:description" content="<?php bloginfo( 'description' ); ?>"/>
-  <meta property="og:title" content="<?php bloginfo( 'name' ); ?><?php wp_title( '|' ); ?>"/>
+  <?php
+  if ( has_post_thumbnail() ) { // check if the post has a Post Thumbnail assigned to it.
+  ?>
+  <meta property="og:image" content="<?php the_post_thumbnail_url(); ?>" />
+  <?php 
+  } else {
+  ?>
+  <meta property="og:image" content="<?php echo get_stylesheet_directory_uri(); ?>/img/logo.jpg" />
+  <?php
+  }
+  ?>
+  <meta property="og:description" content="<?php bloginfo( 'description' ); ?>" />
+  <meta property="og:title" content="<?php bloginfo( 'name' ); ?><?php wp_title( '|' ); ?>" />
 
   <!-- Google+ Metadata /-->
   <meta itemprop="name" content="<?php bloginfo( 'name' ); ?><?php wp_title( '|' ); ?>">
   <meta itemprop="description" content="<?php bloginfo( 'description' ); ?>">
-  <meta itemprop="image" content="<?php echo get_stylesheet_directory_uri(); ?>/img/thumbnail.jpg">
+  <meta itemprop="image" content="<?php echo get_stylesheet_directory_uri(); ?>/img/logo.jpg">
 
   <!-- Icons /-->
   <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/img/apple-touch-icon-57x57-precomposed.png" type="image/x-icon" />
