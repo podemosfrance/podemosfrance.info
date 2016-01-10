@@ -151,15 +151,15 @@ msgstr "Ins&#233;rer le code :"
 #: /var/www/wp-content/plugins/cimy-user-extra-fields/cimy_uef_register.php:1300
 #: /var/www/wp-content/plugins/cimy-user-extra-fields/cimy_uef_register.php:1302
 msgid "Confirm your registration"
-msgstr ""
+msgstr "Confirmez votre inscription"
 
 #: /var/www/wp-content/plugins/cimy-user-extra-fields/cimy_uef_register.php:1308
 msgid "A password will be e-mailed to you."
-msgstr ""
+msgstr "Un courriel vous sera envoy&eacute;"
 
 #: /var/www/wp-content/plugins/cimy-user-extra-fields/cimy_uef_register.php:1316
 msgid "&larr; Back"
-msgstr ""
+msgstr "&larr; Pr&eacute;c&eacute;dent"
 
 #: /var/www/wp-content/plugins/cimy-user-extra-fields/cimy_uef_admin.php:17
 msgid "Add field"
@@ -708,12 +708,12 @@ msgstr ""
 "\n"
 "%s\n"
 "\n"
-"Apr&#232;s l'activation, vous recevrez un *autre courriel* avec votre identifiant.\n"
+"Après l'activation, vous recevrez un *autre courriel* avec votre identifiant.\n"
 
 #: /var/www/wp-content/plugins/cimy-user-extra-fields/cimy_uef_email_handler.php:215
 #, php-format
 msgid "[%1$s] Activate %2$s"
-msgstr ""
+msgstr "[%1$s] Activation %2$s"
 
 #: /var/www/wp-content/plugins/cimy-user-extra-fields/cimy_uef_email_handler.php:234
 #: /var/www/wp-content/plugins/cimy-user-extra-fields/cimy_uef_email_handler.php:243

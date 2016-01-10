@@ -13,5 +13,5 @@ jQuery('.datepicker').datepicker({
     isRTL: datepickerL10n.isRTL,
     changeMonth: true,
     changeYear: true,
-//    yearRange: '-150:+0'
+    yearRange: '-150:-12'
 });
