@@ -34,6 +34,22 @@ function get_post_thumbnail_id( $post_id = null ) {
 	return get_post_meta( $post_id, '_thumbnail_id', true );
 }
 
+/* ARO */
+/**
+  * Outputs the URL of the "Featured Image", also known as "Post Thumbnail".
+  * @param $post_id (optional) The ID of the Post whose Thumbnail you wish to output. When used within "The Loop", this parameter can be ommitted.
+  * @return void
+  */
+function the_post_thumbnail_url($post_id = false) {
+	global $post;
+	
+	if (!$post_id) {
+		$post_id = $post->ID;
+	}
+	$thumbnail_id = get_post_thumbnail_id($post_id);
+	echo wp_get_attachment_url($thumbnail_id);
+}
+
 /**
  * Display the post thumbnail.
  *
