@@ -24,8 +24,10 @@
 						</header>
 						<h2 itemprop="headline"><a itemprop="url" href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title(); ?>" rel="bookmark"><?php $the_title = get_the_title(); echo(count_char('60', $the_title)); ?></a></h2>
 						<aside class="post_author clearfix" itemscope itemtype="http://data-vocabulary.org/Person">
+							<?php /*
 							<figure itemprop="photo"><?php echo get_avatar( get_the_author_meta( 'user_email' ) ); ?></figure>
 							<h4 rel="author"><a target="_blank" title="Google Plus de <?php echo get_the_author() ; ?>" href="<?php the_author_meta( 'google_plus' ); ?>?rel=author" itemprop="contact"> de <span itemprop="name"><?php echo get_the_author() ; ?></span></a></h4>
+							*/ ?>
 							<time datetime="<?php the_time( 'Y/m/d g:i:s A' ); ?>" pubdate><?php the_date( 'j F Y'); ?></time>
 						</aside>
 						<p itemprop="alternativeHeadline" class="excerpt"><?php $excerpt = get_the_excerpt();  echo(count_char('140', $excerpt)); ?></p>

@@ -21,17 +21,20 @@
 					<?php show_parent_category(); ?>
 				</header>
 				<aside class="post_author clearfix" itemscope itemtype="http://data-vocabulary.org/Person">
+					<?php /* Comment author on Posts
 					<figure itemprop="photo"><?php echo get_avatar( get_the_author_meta( 'user_email' ) ); ?></figure>
 					<?php $google_plus =  get_the_author_meta( 'google_plus' ); ?>
 					<h4 rel="author"> <?php if ($google_plus) { ?><a target="_blank" title="Google Plus de <?php echo get_the_author() ; ?>" href="<?php the_author_meta( 'google_plus' ); ?>?rel=author" itemprop="contact"> de <span itemprop="name"><?php echo get_the_author() ; ?></span></a><?php  } else { ?><span itemprop="name"><?php echo get_the_author() ; ?></span><?php }  ; ?></h4>
 					<?php $twitter =  get_the_author_meta( 'twitter' );
 					$nombre_twitter = explode("twitter.com/", $twitter);
 					if ($twitter) { ?><p class="twitter"><a target="_blank" title="Twitter de <?php echo get_the_author() ; ?>" class="icon twitter" href="<?php echo $twitter ?>">@<?php echo $nombre_twitter [1]?></a></p><?php  } ?>
+					*/ ?>
 					<time datetime="<?php the_time( 'Y/m/d g:i:s A' ); ?>" pubdate><?php the_date( 'j F Y'); ?></time>
 				</aside>
 				<?php if( $post->post_excerpt ) { ?>
 				<p itemprop="alternativeHeadline" class="excerpt"><?php echo $post->post_excerpt; ?></p>
 				<?php } ?>
+				<?php /* Comment shares
 				<div class="share">
 					<span class='st_facebook_hcount' displayText='Facebook'></span>
 					<span class='st_twitter_hcount' displayText='Tweet'></span>
@@ -39,6 +42,7 @@
 					<span class='st_linkedin_hcount' displayText='LinkedIn'></span>
 					<span class='st_meneame_hcount' displayText='Meneame'></span>
 				</div>
+				*/ ?>
 				<div class="post_text module" itemprop="text">
 					<?php the_content(); ?>
 				</div>
