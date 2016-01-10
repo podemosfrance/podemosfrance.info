@@ -74,6 +74,9 @@ class supsystic_promoGmp extends moduleGmp {
 			frameGmp::_()->getModule('options')->getModel()->save('start_usage', $currTime);
 		}
 		if(!empty($notices)) {
+			if(isset($notices['rate_msg']) && isset($notices['enb_promo_link_msg']) && !empty($notices['enb_promo_link_msg'])) {
+				unset($notices['rate_msg']);	// Show only one from those messages
+			}
 			$html = '';
 			foreach($notices as $nKey => $n) {
 				$this->getModel()->saveUsageStat($nKey. '.'. 'show', true);
@@ -209,7 +212,7 @@ class supsystic_promoGmp extends moduleGmp {
 	}
 	public function getLoveLink() {
 		$title = 'WordPress Google Maps Plugin';
-		return '<a title="'. $title. '" style="border: none; color: #26bfc1 !important; font-size: 9px; display: block; float: right;" href="'. $this->generateMainLink('utm_source=plugin&utm_medium=love_link&utm_campaign=coming_soon'). '" target="_blank">'
+		return '<a title="'. $title. '" style="border: none; color: #26bfc1 !important; font-size: 9px; display: block; float: right;" href="'. $this->generateMainLink('utm_source=plugin&utm_medium=love_link&utm_campaign=googlemaps'). '" target="_blank">'
 			. $title
 			. '</a>';
 	}

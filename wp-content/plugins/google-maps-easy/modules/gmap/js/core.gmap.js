@@ -103,29 +103,44 @@ gmpGoogleMap.prototype._afterInit = function() {
 	if(typeof(this._mapParams.marker_clasterer) !== 'undefined' && this._mapParams.marker_clasterer) {
 		this.enableClasterization(this._mapParams.marker_clasterer);
 	}
-	if(typeof(this._mapParams.zoom_min) !== 'undefined') {
-		var minZoom = parseInt(this._mapParams.zoom_min) ? parseInt(this._mapParams.zoom_min) : null;
-		this.getRawMapInstance().setOptions({maxZoom: minZoom});
-		if(this.getRawMapInstance().zoom < minZoom)
-			this.getRawMapInstance().setOptions({zoom: minZoom});
+	if(typeof(this._mapParams.zoom_min) !== 'undefined' && typeof(this._mapParams.zoom_max) !== 'undefined') {
+		this._setMinZoomLevel();
+		this._setMaxZoomLevel();
+		this._fixZoomLevel();
 	}
-	if(typeof(this._mapParams.zoom_max) !== 'undefined') {
-		var maxZoom = parseInt(this._mapParams.zoom_max) ? parseInt(this._mapParams.zoom_max) : null;
-		this.getRawMapInstance().setOptions({maxZoom: maxZoom});
-		if(this.getRawMapInstance().zoom > maxZoom)
-			this.getRawMapInstance().setOptions({zoom: maxZoom});
-	}
-	var self = this;
-	var eventHandle = google.maps.event.addListener(this.getRawMapInstance(), 'zoom_changed', function(){
-		if (self.getZoom() < minZoom) {
-			self.setZoom(minZoom);
-		}
-		if (self.getZoom() > maxZoom) {
-			self.setZoom(maxZoom);
-		}
-	});
-	this._addEventListenerHandle('zoom_changed', 'zoomChanged', eventHandle);
 	jQuery(document).trigger('gmapAfterMapInit', this);
+};
+gmpGoogleMap.prototype._setMinZoomLevel = function() {
+	var minZoom = parseInt(this._mapParams.zoom_min) ? parseInt(this._mapParams.zoom_min) : null;
+	this.getRawMapInstance().setOptions({maxZoom: minZoom});
+	if(this.getRawMapInstance().zoom < minZoom)
+		this.getRawMapInstance().setOptions({zoom: minZoom});
+};
+gmpGoogleMap.prototype._setMaxZoomLevel = function() {
+	var maxZoom = parseInt(this._mapParams.zoom_max) ? parseInt(this._mapParams.zoom_max) : null;
+	this.getRawMapInstance().setOptions({maxZoom: maxZoom});
+	if(this.getRawMapInstance().zoom > maxZoom)
+		this.getRawMapInstance().setOptions({zoom: maxZoom});
+};
+gmpGoogleMap.prototype._fixZoomLevel = function() {
+	var eventHandle = this._getEventListenerHandle('zoom_changed', 'zoomChanged');
+	if(!eventHandle) {
+		eventHandle = google.maps.event.addListener(this.getRawMapInstance(), 'zoom_changed', jQuery.proxy(function(){
+			var minZoom = parseInt(this.getParam('zoom_min'))
+			,	maxZoom = parseInt(this.getParam('zoom_max'));
+			if (this.getZoom() < minZoom) {
+				this.setZoom(minZoom);
+				if(GMP_DATA.isAdmin && this._getEventListenerHandle('idle', 'enableClasterization'))
+					google.maps.event.trigger(this.getRawMapInstance(), 'idle');
+			}
+			if (this.getZoom() > maxZoom) {
+				this.setZoom(maxZoom);
+				if(GMP_DATA.isAdmin && this._getEventListenerHandle('idle', 'enableClasterization'))
+					google.maps.event.trigger(this.getRawMapInstance(), 'idle');
+			}
+		}, this));
+		this._addEventListenerHandle('zoom_changed', 'zoomChanged', eventHandle);
+	}
 };
 gmpGoogleMap.prototype.enableClasterization = function(clasterType, needTrigger) {
 	var needTrigger = needTrigger ? needTrigger : false;
@@ -334,6 +349,9 @@ gmpGoogleMarker.prototype.init = function() {
 	if(this._markerParams.click) {
 		this._markerObj.addListener('click', jQuery.proxy(this._markerParams.click, this));
 	}
+	this._markerObj.addListener('domready', jQuery.proxy(function(){
+		this._changeMarkerInfoWndBgColor(this._map);
+	}, this));
 	var markerEvent = '';
 	if(this._markerParams.params && this._markerParams.params.description_mouse_hover == 1) {
 		markerEvent = 'mouseover';
@@ -373,7 +391,6 @@ gmpGoogleMarker.prototype.showInfoWnd = function() {
 		}
 		this._infoWindow.open(this._map.getRawMapInstance(), this._markerObj);
 		this._infoWndOpened = true;
-		this._changeMarkerInfoWndBgColor(this._map.getParam('marker_infownd_bg_color'));
 	}
 };
 gmpGoogleMarker.prototype.hideInfoWnd = function() {
@@ -453,12 +470,13 @@ gmpGoogleMarker.prototype._updateInfoWndContent = function() {
 	}
 	this._setInfoWndContent( contentStr );
 };
-gmpGoogleMarker.prototype._changeMarkerInfoWndBgColor = function(color) {
+gmpGoogleMarker.prototype._changeMarkerInfoWndBgColor = function(map) {
 	g_gmpMarkerBgColorTimeoutSet = false;
+	var color = map.getParam('marker_infownd_bg_color')
+	,	mapId = map._elementId.id;
 
 	//This is a standart google maps api class
-	var markerContent = jQuery('.gm-style-iw');
-
+	var markerContent = jQuery('#'+ mapId).find('.gm-style-iw');
 	markerContent.prev().children().last().css('background-color', color);
 	markerContent.prev().children(':nth-child(3)').children().last().prev().children().last().css('background-color', color);
 	markerContent.prev().children(':nth-child(3)').children().last().children().css('background-color', color);
@@ -475,6 +493,9 @@ gmpGoogleMarker.prototype._setInfoWndContent = function(newContentHtmlObj) {
 		var self = this
 		,	infoWndParams = this._map.getParam('marker_infownd_width_units') == 'px' ? { maxWidth: this._map.getParam('marker_infownd_width') } : {};
 		this._infoWindow = new google.maps.InfoWindow(infoWndParams);
+		google.maps.event.addListener(this._infoWindow, 'domready', function(){
+			self._changeMarkerInfoWndBgColor(self._map);
+		});
 		google.maps.event.addListener(this._infoWindow, 'closeclick', function(){
 			self._setInfoWndClosed();
 		});

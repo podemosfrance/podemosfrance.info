@@ -782,7 +782,7 @@
 								<tr>
 									<th scope="row">
 										<label for="map_opts_zoom_max" class="sup-medium-label">
-											<?php _e('Min Zoom Level', GMP_LANG_CODE)?>:
+											<?php _e('Max Zoom Level', GMP_LANG_CODE)?>:
 										</label>
 										<i style="float: right;" class="fa fa-question supsystic-tooltip" title="<?php _e('Sets max zoom level for map.', GMP_LANG_CODE)?>"></i>
 									</th>

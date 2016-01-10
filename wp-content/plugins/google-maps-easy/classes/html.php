@@ -215,10 +215,10 @@ class htmlGmp {
                         action: "'.$params['url'].'", 
                         name: "'. $name. '" '. 
                         (empty($params['data']) ? '' : ',  data: '. $params['data']. '').
-                        (empty($params['autoGmpmit']) ? '' : ',  autoGmpmit: "'. $params['autoGmpmit']. '"').
+                        (empty($params['autoSubmit']) ? '' : ',  autoSubmit: "'. $params['autoSubmit']. '"').
                         (empty($params['responseType']) ? '' : ',  responseType: "'. $params['responseType']. '"').
                         (empty($params['onChange']) ? '' : ',  onChange: '. $params['onChange']. '').
-                        (empty($params['onGmpmit']) ? '' : ',  onGmpmit: '. $params['onGmpmit']. '').
+                        (empty($params['onSubmit']) ? '' : ',  onSubmit: '. $params['onSubmit']. '').
                         (empty($params['onComplete']) ? '' : ',  onComplete: '. $params['onComplete']. '').
                     '});
                 });

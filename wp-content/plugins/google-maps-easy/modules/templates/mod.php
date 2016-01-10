@@ -110,7 +110,7 @@ class templatesGmp extends moduleGmp {
 		frameGmp::_()->addStyle('tooltipster', $this->_cdnUrl. 'lib/tooltipster/tooltipster.css');
 	}
 	public function loadSlimscroll() {
-		frameGmp::_()->addScript('jquery.slimscroll', GMP_JS_PATH. 'jquery.slimscroll.js');	// Don't use CDN here - as this lib is modified
+		frameGmp::_()->addScript('jquery.slimscroll', $this->_cdnUrl. 'js/jquery.slimscroll.js');	// Don't use CDN here - as this lib is modified
 	}
 	public function loadCodemirror() {
 		frameGmp::_()->addStyle('ptsCodemirror', $this->_cdnUrl. 'lib/codemirror/codemirror.css');

@@ -418,6 +418,24 @@ jQuery(document).ready(function(){
 			infoWndHeightInput.hide();
 		}
 	});
+	jQuery('#gmpMapForm select[name="map_opts[zoom_min]"]').change(function(){
+		var minZoom = jQuery(this).val()
+		,	maxZoom = jQuery('#gmpMapForm select[name="map_opts[zoom_max]"]').val();
+		g_gmpMap.setParam('zoom_min', minZoom);
+		g_gmpMap.setParam('zoom_max', maxZoom);
+		g_gmpMap._setMinZoomLevel();
+		g_gmpMap._setMaxZoomLevel();
+		g_gmpMap._fixZoomLevel();
+	});
+	jQuery('#gmpMapForm select[name="map_opts[zoom_max]"]').change(function(){
+		var minZoom = jQuery('#gmpMapForm select[name="map_opts[zoom_min]"]').val()
+		,	maxZoom = jQuery(this).val();
+		g_gmpMap.setParam('zoom_min', minZoom);
+		g_gmpMap.setParam('zoom_max', maxZoom);
+		g_gmpMap._setMinZoomLevel();
+		g_gmpMap._setMaxZoomLevel();
+		g_gmpMap._fixZoomLevel();
+	});
 	// Set base icon img
 	gmpSetIconImg();
 	// Map Markers List selection
@@ -995,16 +1013,18 @@ function wpColorPicker_map_optscustom_controls_txt_color_change(event, ui) {
 	}
 }
 function wpColorPicker_map_optsmarker_infownd_bg_color_change(event, ui) {
-	//If map has no markers return
-	if(!g_gmpMap._markers[0]) return;
-
 	var color = ui.color.toString();
 	if(!g_gmpMarkerBgColorTimeoutSet) {
 		setTimeout(function(){
-			var color = ui.color.toString();
+			//Set param anyway for info window preview, opened before new marker will be saved
 			g_gmpMap.setParam('marker_infownd_bg_color', color);
-			//This callback does not depend from marker id
-			g_gmpMap._markers[0]._changeMarkerInfoWndBgColor(color);
+
+			//Get all map markers
+			var allMapMarkers = g_gmpMap.getAllMarkers();
+			//If map has no markers - return
+			if(!allMapMarkers) return;
+			//If markers exist - call callback to change info window bg color (it does not depend from marker id)
+			allMapMarkers[0]._changeMarkerInfoWndBgColor(g_gmpMap);
 		}, 500);
 		g_gmpMarkerBgColorTimeoutSet = true;
 	}
