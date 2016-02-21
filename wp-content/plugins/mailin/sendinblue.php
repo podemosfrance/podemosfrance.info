@@ -3,7 +3,7 @@
 Plugin Name: SendinBlue Subscribe Form And WP SMTP
 Plugin URI: https://www.sendinblue.com/?r=wporg
 Description: Easily send emails from your WordPress blog using SendinBlue SMTP and easily add a subscribe form to your site
-Version: 2.4.9
+Version: 2.4.10
 Author: SendinBlue
 Author URI: https://www.sendinblue.com/?r=wporg
 License: GPLv2 or later
@@ -630,39 +630,57 @@ EOD;
             $this->reference_form_count ++;
 
             ?>
+   <script>
+	 jQuery(document).ready(function(){
+	 jQuery("#sib_form_<?php echo $this->reference_form_count; ?>-form").submit(function(e)
+	 {     
+		 
+		   jQuery('#loader').show();
+		 
+		  var postData = jQuery(this).serializeArray();
+		  var formURL = jQuery(this).attr("action");
+		  jQuery.ajax(
+		  {
+			url : formURL,
+			type: "POST",
+			data : postData,
+			success:function(data, textStatus, jqXHR) 
+			{				
+		    jQuery('#loader').hide();		
+				
+			if(data === 'success' || data === 'update') {
+				var cdata = '<p class="sib-alert-message sib-alert-message-success"><?php echo SIB_Manager::$alert_success_message; ?></p>';
+				jQuery('.sib_msg_disp').html(cdata).show();
+			} else if(data === 'failure') {
+				var cdata = '<p class="sib-alert-message sib-alert-message-error sib-alert-error-general"><?php echo SIB_Manager::$alert_error_message; ?></p>';
+				jQuery('.sib_msg_disp').html(cdata).show();
+			} else if(data === 'already_exist') {
+				var cdata = '<p class="sib-alert-message sib-alert-message-warning sib-alert-error-subscriber"><?php echo SIB_Manager::$alert_exist_subscriber; ?></p>';
+				jQuery('.sib_msg_disp').html(cdata).show();
+			} else if(data === 'invalid') {
+				var cdata = '<p class="sib-alert-message sib-alert-message-error sib-alert-error-general"><?php echo SIB_Manager::$alert_invalid_email; ?></p>';
+				jQuery('.sib_msg_disp').html(cdata).show();
+			}		
+			},
+			error: function(jqXHR, textStatus, errorThrown) 
+			{
+			jQuery('.sib_msg_disp').html(jqXHR).show();
+			}
+			});
+			e.preventDefault();
+		 });
+	 });
+  </script>
+  
+    <div id="loader" style="display:none;"><img src="<?php echo includes_url(); ?>/images/spinner.gif"></div>
+  
             <form id="sib_form_<?php echo $this->reference_form_count; ?>-form" method="post" class="sib_signup_form">
                 <input type="hidden" name="sib_form_action" value="subscribe_form_submit">
                 <input type="hidden" name="sib_form_list_id" value="<?php echo $sib_list; ?>">
                 <input type="hidden" name="reference_id" value="<?php echo $this->reference_form_count; ?>">
                 <div class="sib_signup_box_inside">
-                    <?php
-                    if($this->reference_id == $this->reference_form_count) {
-                        if($this->state_of_form == 'success' || $this->state_of_form == 'update') {
-                        ?>
-                            <p class="sib-alert-message sib-alert-message-success">
-                                <?php echo SIB_Manager::$alert_success_message; ?>
-                            </p>
-                        <?php
-                        } elseif ($this->state_of_form == 'failure') {
-                        ?>
-                            <p class="sib-alert-message sib-alert-message-error sib-alert-error-general">
-                                <?php echo SIB_Manager::$alert_error_message; ?>
-                            </p>
-                        <?php
-                        } elseif ($this->state_of_form == 'already_exist') {
-                        ?>
-                            <p class="sib-alert-message sib-alert-message-warning sib-alert-error-subscriber">
-                                <?php echo SIB_Manager::$alert_exist_subscriber; ?>
-                            </p>
-                        <?php
-                        } elseif ($this->state_of_form == 'invalid') {
-                        ?>
-                            <p class="sib-alert-message sib-alert-message-error sib-alert-error-general">
-                                <?php echo SIB_Manager::$alert_invalid_email; ?>
-                            </p>
-                        <?php
-                        }
-                    }
+					<div style="display:none" class="sib_msg_disp"></div>
+                    <?php                    
                     echo $html;
                     ?>
                 </div>
@@ -832,7 +850,7 @@ EOD;
             }
 
             $this->reference_id = $ref_id;
-            $this->state_of_form = $error;
+            echo $this->state_of_form = $error;die;
         }
 
         /**
