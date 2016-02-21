@@ -11,7 +11,7 @@
 /**
  * This class contains general stuff for usage at WordPress plugins
  */
-class Ure_Lib extends Garvs_WP_Lib {
+class Ure_Lib extends URE_Base_Lib {
 
 	public $roles = null;     
 	public $notification = '';   // notification message to show on page
@@ -27,7 +27,7 @@ class Ure_Lib extends Garvs_WP_Lib {
 	protected $caps_readable = false;
 	protected $hide_pro_banner = false;	
 	protected $full_capabilities = false;
-	protected $ure_object = 'role';  // what to process, 'role' or 'user'  
+	public $ure_object = 'role';  // what to process, 'role' or 'user'  
 	public    $role_default_html = '';
 	protected $role_to_copy_html = '';
 	protected $role_select_html = '';
@@ -35,6 +35,7 @@ class Ure_Lib extends Garvs_WP_Lib {
 	protected $capability_remove_html = '';
 	protected $advert = null;
  protected $role_additional_options = null;
+ protected $bbpress = null; // reference to the URE_bbPress class instance
  
  // when allow_edit_users_to_not_super_admin option is turned ON, we set this property to true 
  // when we raise single site admin permissions up to the superadmin for the 'Add new user' new-user.php page
@@ -54,11 +55,28 @@ class Ure_Lib extends Garvs_WP_Lib {
                                            
         parent::__construct($options_id); 
         $this->debug = defined('URE_DEBUG') && (URE_DEBUG==1 || URE_DEBUG==true);
+ 
+        $this->bbpress = URE_bbPress::get_instance($this);
         
         $this->upgrade();
     }
     // end of __construct()
 
+    
+    public static function get_instance($options_id = '') {
+        
+        if (self::$instance === null) {
+            if (empty($options_id)) {
+                throw new Exception('URE_Lib::get_inctance() - Error: plugin options ID string is required');
+            }
+            // new static() will work too
+            self::$instance = new URE_Lib($options_id);
+        }
+
+        return self::$instance;
+    }
+    // end of get_instance()
+    
     
     protected function upgrade() {
         
@@ -337,9 +355,16 @@ if ($this->multisite && !is_network_admin()) {
 </div>     
 
 <?php        
-        do_action('ure_dialogs_html');
+        
     }
     // end of output_role_edit_dialogs()
+    
+    
+    protected function output_user_caps_edit_dialogs() {
+    
+
+    }
+    // end of output_user_caps_edit_dialogs()
     
     
     protected function output_confirmation_dialog() {
@@ -388,7 +413,11 @@ if ($this->multisite && !is_network_admin()) {
 	
     if ($this->ure_object == 'role') {
         $this->output_role_edit_dialogs();
+    } else {
+        $this->output_user_caps_edit_dialogs();
     }
+    do_action('ure_dialogs_html');
+    
     $this->output_confirmation_dialog();
 ?>
         </div>          
@@ -761,28 +790,8 @@ if ($this->multisite && !is_network_admin()) {
             $wp_roles = new WP_Roles();
         }                
 
-        if (function_exists('bbp_filter_blog_editable_roles')) {  // bbPress plugin is active
-            $this->roles = bbp_filter_blog_editable_roles($wp_roles->roles);  // exclude bbPress roles	
-            $bbp_full_caps = bbp_get_caps_for_role(bbp_get_keymaster_role());
-            // exclude capabilities automatically added by bbPress bbp_dynamic_role_caps() and not bbPress related: read, level_0, all s2Member levels, e.g. access_s2member_level_0, etc.
-            $built_in_wp_caps = $this->get_built_in_wp_caps();
-            $bbp_only_caps = array();
-            foreach ($bbp_full_caps as $bbp_cap => $val) {
-                if (isset($built_in_wp_caps[$bbp_cap]) || substr($bbp_cap, 0, 15) == 'access_s2member') {
-                    continue;
-                }
-                $bbp_only_caps[$bbp_cap] = $val;
-            }
-            // remove bbPress dynamically created capabilities from WordPress persistent roles in order to not save them to database with any role update
-            $cap_removed = false;
-            foreach ($bbp_only_caps as $bbp_cap => $val) {
-                foreach ($this->roles as &$role) {
-                    if (isset($role['capabilities'][$bbp_cap])) {
-                        unset($role['capabilities'][$bbp_cap]);
-                        $cap_removed = true;
-                    }
-                }
-            }            
+        if (!empty($this->bbpress)) {  // bbPress plugin is active
+            $this->roles = $this->bbpress->get_roles();
         } else {
             $this->roles = $wp_roles->roles;
         }        
@@ -955,6 +964,8 @@ if ($this->multisite && !is_network_admin()) {
      * @return array 
      */
     public function get_built_in_wp_caps() {
+        $wp_version = get_bloginfo('version');
+        
         $caps = array();
         $caps['switch_themes'] = 1;
         $caps['edit_themes'] = 1;
@@ -1011,7 +1022,11 @@ if ($this->multisite && !is_network_admin()) {
         $caps['update_core'] = 1;
         $caps['list_users'] = 1;
         $caps['remove_users'] = 1;
-        $caps['add_users'] = 1;
+                
+        if (version_compare($wp_version, '4.4', '<')) {
+            $caps['add_users'] = 1;  // removed from WP v. 4.4.
+        }
+        
         $caps['promote_users'] = 1;
         $caps['edit_theme_options'] = 1;
         $caps['delete_themes'] = 1;
@@ -1580,6 +1595,23 @@ if ($this->multisite && !is_network_admin()) {
     
     
     /**
+     * Add bbPress plugin user capabilities (if available)
+     */
+    protected function add_bbpress_caps() {
+    
+        if (empty($this->bbpress)) {
+            return;
+        }
+        
+        $caps = $this->bbpress->get_caps();
+        foreach ($caps as $cap) {
+            $this->add_capability_to_full_caps_list($cap);
+        }
+    }
+    // end of add_bbpress_caps()
+        
+    
+    /**
      * Provide compatibility with plugins and themes which define their custom user capabilities using 
      * 'members_get_capabilities' filter from Members plugin 
      * 
@@ -1708,6 +1740,7 @@ if ($this->multisite && !is_network_admin()) {
         $this->full_capabilities = array();
         $this->add_roles_caps();
         $this->add_gravity_forms_caps();
+        $this->add_bbpress_caps();
         $this->add_members_caps();
         $this->add_user_caps();
         $this->add_wordpress_caps();
@@ -1833,7 +1866,7 @@ if ($this->multisite && !is_network_admin()) {
      * @global wpdb $wpdb
      * @return boolean
      */
-    function direct_network_roles_update() {
+    public function direct_network_roles_update() {
         global $wpdb;
 
         if (!$this->last_check_before_update()) {
@@ -1860,6 +1893,8 @@ if ($this->multisite && !is_network_admin()) {
                 $this->log_event($wpdb->last_error, true);
                 return false;
             }
+            // save role additional options
+            
         }
         
         return true;
@@ -1876,7 +1911,8 @@ if ($this->multisite && !is_network_admin()) {
         $GLOBALS['_wp_switched_stack'] = array();
         $GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
     }
-    // end of restore_after_blog_switching(
+    // end of restore_after_blog_switching()
+    
     
     protected function wp_api_network_roles_update() {
         global $wpdb;
@@ -1935,7 +1971,6 @@ if ($this->multisite && !is_network_admin()) {
      * @return boolean
      */
     protected function update_roles() {
-        global $wpdb;
 
         if ($this->multisite && is_super_admin() && $this->apply_to_all) {  // update Role for the all blogs/sites in the network (permitted to superadmin only)
             if (!$this->multisite_update_roles()) {
@@ -1960,13 +1995,13 @@ if ($this->multisite && !is_network_admin()) {
      * @param boolean $show_message
      */
     protected function log_event($message, $show_message = false) {
-        global $wp_version;
+        global $wp_version, $wpdb;
 
         $file_name = URE_PLUGIN_DIR . 'user-role-editor.log';
         $fh = fopen($file_name, 'a');
         $cr = "\n";
         $s = $cr . date("d-m-Y H:i:s") . $cr .
-                'WordPress version: ' . $wp_version . ', PHP version: ' . phpversion() . ', MySQL version: ' . mysql_get_server_info() . $cr;
+                'WordPress version: ' . $wp_version . ', PHP version: ' . phpversion() . ', MySQL version: ' . $wpdb->db_version() . $cr;
         fwrite($fh, $s);
         fwrite($fh, $message . $cr);
         fclose($fh);
