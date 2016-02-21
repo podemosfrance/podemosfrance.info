@@ -1,11 +1,11 @@
 === Google Maps Easy ===
 Contributors: supsystic.com
 Donate link: http://supsystic.com/plugins/google-maps-plugin
-Tags: google map, google map plugin, map, location, direction, map marker, marker, geocoder, post map, widget map, custom marker, geo, google map short code, google map styles, latitude, longitude, placemarker, wp map
-Tested up to: 4.3.1
-Stable tag: 1.4.5
+Tags: best google maps, best maps, bing maps, contact page map, cross-browser, custom google map, custom google maps, easy map, geo, geocoder, gmap, gmaps, google earth, google map, google map embed, google map plugin, google map shortcode, google map widget, google map WordPress, google maps for WordPress, google maps v3, google maps WordPress, googlemaps, gprs, gps, gpx, kml, latitude, loaction by address, location, longitude, map, map direction, map directions, map embed, map markers, map plugin, map point, map shortcode, map styles, maps, maps google, polygons, post map, roads, routes, simple google map, simple google map plugin, store locator, street view, wp google map, wp google maps, wp map, wp map embed
+Tested up to: 4.4.2
+Stable tag: 1.4.8
 
-The easiest way to create Google Map with markers, locations and clusterization. Any data on the map: text, images, videos. Custom map marker icons
+The easiest way to create Google Map with markers, locations and clusterization. Any data on the map: text, images, videos. Custom google map marker icons
 
 == Description ==
 
@@ -164,6 +164,26 @@ Copy and paste the shortcode into your post or page and Google Maps Easy will au
 6. Google Map Stylizations. Make your map unique with our Map Themes!
 
 == Changelog ==
+
+= 1.4.8 / 05.02.2016 =
+ * "Add Google Map" button - in admin top bar: create your Google Maps more faster!
+ * Add map options: Marker Title font size, Marker Description font size
+ * Fix of conflict between Map Stylization and Hide POI options
+ * Fix of map widget option "Display as image"
+ * Cancel width calculation for vertical slider of markers list
+
+= 1.4.7 / 19.01.2016 =
+ * Fix of google map error (connect map assets)
+ * Google Map API fix
+ * Map Marker issue fix
+ * Added Google Map Pointer with video
+
+= 1.4.6 / 21.12.2015 =
+ * Corrections of admin are view for WordPress 4.4
+ * Correct contact email for build-in plugin contact form
+ * New pretty loader
+ * Correct Overview page for case if mysql_get_server_info() function are missing
+ * Update English language files 
 
 = 1.4.5 / 01.12.2015 =
  * Update Min/Max Zoom Level options to work in map admin area

@@ -461,12 +461,29 @@ gmpGoogleMarker.prototype._updateInfoWndContent = function() {
 				'color': titleColor
 			});
 		}
+		var titleSize = this._map.getParam('marker_title_size')
+		,	titleSizeUnits = this._map.getParam('marker_title_size_units');
+		if(titleSize && titleSizeUnits && titleSize != '') {
+			titleDiv.css({
+				'font-size': titleSize + titleSizeUnits
+			,	'line-height': titleSize + titleSizeUnits
+			});
+		}
 		contentStr.append( titleDiv );
 	}
 	if(description) {
-		contentStr.append(jQuery('<div/>', {})
+		var descDiv = jQuery('<div/>', {})
 			.addClass('egm-marker-iw')
-			.html(description));
+			.html( description );
+		var descSize = this._map.getParam('marker_desc_size')
+		,	descSizeUnits = this._map.getParam('marker_desc_size_units');
+		if(descSize && descSizeUnits && descSize != '') {
+			descDiv.css({
+				'font-size': descSize + descSizeUnits
+			,	'line-height': parseInt(descSize) + 5 + descSizeUnits
+			});
+		}
+		contentStr.append( descDiv );
 	}
 	this._setInfoWndContent( contentStr );
 };

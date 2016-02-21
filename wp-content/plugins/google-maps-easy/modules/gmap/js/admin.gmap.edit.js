@@ -370,6 +370,9 @@ jQuery(document).ready(function(){
 		} else {
 			g_gmpMap.set('styles', false);
 		}
+		if(GMP_DATA.isPro) {
+			gmpPoiToggle(g_gmpMap);
+		}
 	});
 	// Map Clasterization
 	var markerClustererInput = jQuery('#gmpMapForm select[name="map_opts[marker_clasterer]"]');

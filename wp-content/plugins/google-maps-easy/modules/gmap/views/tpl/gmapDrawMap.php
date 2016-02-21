@@ -90,23 +90,24 @@
 		}
 		<?php }?>
 	</style>
-	<?php if($this->currentMap['params']['map_display_mode'] == 'popup'){ ?>
-		<div class="map-preview-iumg-container">
-			<img src="<?php echo GMP_IMG_PATH. 'gmap_preview.png' ?>" data_val="<?php echo $this->currentMap['id']; ?>" class="show_map_icon map_num_<?php echo $this->currentMap['id']; ?>" title = "Click to view map">
+<?php if($this->currentMap['params']['map_display_mode'] == 'popup'){ ?>
+	<div class="map-preview-img-container">
+		<img src="" data_val="<?php echo $this->currentMap['id']; ?>" class="show_map_icon map_num_<?php echo $this->currentMap['id']; ?>" title = "Click to view map" style="display: none;">
+	</div>
+	<div id="gmpWidgetMapPopupWnd">
+<?php } ?>
+		<div class="gmp_map_opts <?php echo $class_name;?>"
+			 id="mapConElem_<?php echo $viewId;?>"
+			 data-view-id="<?php echo $viewId;?>"
+			 data-id="<?php echo $this->currentMap['id']; ?>"
+		>
+			<div class="gmpMapDetailsContainer" id="gmpMapDetailsContainer_<?php echo $viewId ;?>">
+				<div class="gmp_MapPreview <?php echo $classname;?>" id="<?php echo $mapHtmlId ;?>"></div>
+			</div>
+			<div class="gmpMapProControlsCon" id="gmpMapProControlsCon_<?php echo $viewId;?>">
+				<?php dispatcherGmp::doAction('addMapBottomControls', $this->currentMap); ?>
+			</div>
 		</div>
-	<?php } ?>
-<div class="gmp_map_opts <?php echo $class_name;?>" 
-	 id="mapConElem_<?php echo $viewId;?>" 
-	 data-view-id="<?php echo $viewId;?>" 
-	 data-id="<?php echo $this->currentMap['id']; ?>"
->
-	<div class="gmpMapDetailsContainer" id="gmpMapDetailsContainer_<?php echo $viewId ;?>">
-		<?php if($this->currentMap['params']['map_display_mode'] == 'popup') { ?>
-			<a class="btn btn-info close_button" onclick="closePopup();">X</a>
-		<?php } ?>
-		<div class="gmp_MapPreview <?php echo $classname;?>" id="<?php echo $mapHtmlId ;?>"></div>
+<?php if($this->currentMap['params']['map_display_mode'] == 'popup'){ ?>
 	</div>
-	<div class="gmpMapProControlsCon" id="gmpMapProControlsCon_<?php echo $viewId;?>">
-		<?php dispatcherGmp::doAction('addMapBottomControls', $this->currentMap); ?>
-	</div>
-</div>
+<?php } ?>

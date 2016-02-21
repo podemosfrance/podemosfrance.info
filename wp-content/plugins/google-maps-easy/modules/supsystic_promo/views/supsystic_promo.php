@@ -63,7 +63,7 @@ class supsystic_promoViewGmp extends viewGmp {
 			'Operating System' => array('value' => PHP_OS),
             'PHP Version' => array('value' => PHP_VERSION),
             'Server Software' => array('value' => $_SERVER['SERVER_SOFTWARE']),
-            'MySQL' => array('value' => @mysql_get_server_info()),
+            'MySQL' => array('value' => function_exists('mysql_get_server_info') ? @mysql_get_server_info() : __('Undefined', GMP_LANG_CODE)),
             'PHP Safe Mode' => array('value' => ini_get('safe_mode') ? __('Yes', GMP_LANG_CODE) : __('No', GMP_LANG_CODE), 'error' => ini_get('safe_mode')),
             'PHP Allow URL Fopen' => array('value' => ini_get('allow_url_fopen') ? __('Yes', GMP_LANG_CODE) : __('No', GMP_LANG_CODE)),
             'PHP Memory Limit' => array('value' => ini_get('memory_limit')),

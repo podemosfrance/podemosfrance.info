@@ -81,7 +81,10 @@ class gmapViewGmp extends viewGmp {
 			$mapObj['params']['map_display_mode'] = 'popup';
 		}
 		if($mapObj['params']['map_display_mode'] == 'popup') {
-			frameGmp::_()->addScript('bpopup', GMP_JS_PATH. '/bpopup.js');
+			frameGmp::_()->addScript('jquery-ui-dialog', '', array('jquery'));
+			frameGmp::_()->getModule('templates')->loadJqueryUi();
+			frameGmp::_()->addStyle('supsystic-uiGmp', GMP_CSS_PATH. 'supsystic-ui.css');
+			frameGmp::_()->getModule('templates')->loadFontAwesome();
 		}
 		if(empty($mapObj['params']['map_display_mode'])){
 			$mapObj['params']['map_display_mode'] = 'map';

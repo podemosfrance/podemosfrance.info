@@ -60,7 +60,7 @@ class supsystic_promoControllerGmp extends controllerGmp {
 					$data[ $fName ] = $fData['options'][ $data[ $fName ] ];
                 $msg .= '<b>'. $fData['label']. '</b>: '. nl2br($data[ $fName ]). '<br />';
             }
-			if(frameGmp::_()->getModule('mail')->send('support@supsystic.team.zendesk.com', $data['subject'], $msg, $data['name'], $data['email'])) {
+			if(frameGmp::_()->getModule('mail')->send('support@supsystic.zendesk.com', $data['subject'], $msg, $data['name'], $data['email'])) {
 				update_option(GMP_CODE. '_last__time_contact_send', $time);
 			} else {
 				$res->pushError( frameGmp::_()->getModule('mail')->getMailErrors() );

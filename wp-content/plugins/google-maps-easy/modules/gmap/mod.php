@@ -7,6 +7,8 @@ class  gmapGmp extends moduleGmp {
 		dispatcherGmp::addFilter('mainAdminTabs', array($this, 'addAdminTab'));
         add_action('wp_footer', array($this, 'addMapDataToJs'), 5);
 		add_shortcode(GMP_SHORTCODE, array($this, 'drawMapFromShortcode'));
+		// Add to admin bar new item
+		add_action('admin_bar_menu', array($this, 'addAdminBarNewItem'), 300);
 	}
 	public function addAdminTab($tabs) {
 		$tabs[ $this->getCode(). '_add_new' ] = array(
@@ -111,5 +113,17 @@ class  gmapGmp extends moduleGmp {
 	public function getMarkerListByKey($key) {
 		$this->getMarkerLists();
 		return isset($this->_markersLists[ $key ]) ? $this->_markersLists[ $key ] : false;
+	}
+	public function addAdminBarNewItem( $wp_admin_bar ) {
+		$mainCap = frameGmp::_()->getModule('adminmenu')->getMainCap();
+		if(!current_user_can( $mainCap) || !$wp_admin_bar || !is_object($wp_admin_bar)) {
+			return;
+		}
+		$wp_admin_bar->add_menu(array(
+			'parent'    => 'new-content',
+			'id'        => GMP_CODE. '-admin-bar-new-item',
+			'title'     => __('Google Map', GMP_LANG_CODE),
+			'href'      => frameGmp::_()->getModule('options')->getTabUrl( $this->getCode(). '_add_new' ),
+		));
 	}
 }

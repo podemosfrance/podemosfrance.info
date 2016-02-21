@@ -362,6 +362,50 @@
 								</tr>
 								<tr>
 									<th scope="row">
+										<label for="map_opts_marker_title_size">
+											<?php _e('Marker Title font size', GMP_LANG_CODE)?>:
+										</label>
+										<i style="float: right;" class="fa fa-question supsystic-tooltip" title="<?php _e('You can set your markers title font size here', GMP_LANG_CODE)?>"></i>
+									</th>
+									<td>
+										<div class="sup-col sup-w-25">
+											<?php echo htmlGmp::text('map_opts[marker_title_size]', array(
+												'value' => $this->editMap && isset($this->map['params']['marker_title_size']) ? $this->map['params']['marker_title_size'] : '19',
+												'attrs' => 'style="width: 100%;" id="map_opts_marker_title_size"'))?>
+										</div>
+										<div class="sup-col sup-w-75">
+											<label class="supsystic-tooltip" title="<?php _e('Pixels', GMP_LANG_CODE)?>" style="margin-right: 15px; position: relative; top: 7px;">
+												<?php echo htmlGmp::radiobutton('map_opts[marker_title_size_units]', array(
+													'value' => 'px',
+													'checked' => true,
+												))?>&nbsp;<?php _e('Px', GMP_LANG_CODE)?></label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">
+										<label for="map_opts_marker_desc_size">
+											<?php _e('Marker Description font size', GMP_LANG_CODE)?>:
+										</label>
+										<i style="float: right;" class="fa fa-question supsystic-tooltip" title="<?php _e('You can set your markers description font size here', GMP_LANG_CODE)?>"></i>
+									</th>
+									<td>
+										<div class="sup-col sup-w-25">
+											<?php echo htmlGmp::text('map_opts[marker_desc_size]', array(
+												'value' => $this->editMap && isset($this->map['params']['marker_desc_size']) ? $this->map['params']['marker_desc_size'] : '13',
+												'attrs' => 'style="width: 100%;" id="map_opts_marker_desc_size"'))?>
+										</div>
+										<div class="sup-col sup-w-75">
+											<label class="supsystic-tooltip" title="<?php _e('Pixels', GMP_LANG_CODE)?>" style="margin-right: 15px; position: relative; top: 7px;">
+												<?php echo htmlGmp::radiobutton('map_opts[marker_desc_size_units]', array(
+													'value' => 'px',
+													'checked' => true,
+												))?>&nbsp;<?php _e('Px', GMP_LANG_CODE)?></label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">
 										<label for="map_opts_markers_list_type">
 											<?php _e('Markers List', GMP_LANG_CODE)?>:
 										</label>

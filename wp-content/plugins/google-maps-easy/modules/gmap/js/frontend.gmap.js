@@ -19,6 +19,45 @@ function gmpInitMapOnPage(mapData) {
 		}
 		newMap.markersRefresh();
 	}
+	if(newMap.getRawMapInstance().map_display_mode == 'popup') {
+		var img = jQuery('.map-preview-img-container').find('img');
+
+		img.attr('src', gmpGetMapImgSrc(newMap));
+		img.click(function(e){
+			e.stopPropagation();
+			var mapContainer = jQuery('#mapConElem_'+ newMap.getViewId()+ '.display_as_popup')
+			,	mapContainerWidth = mapContainer.width()
+			,	mapContainerHeight = mapContainer.find('.gmpMapDetailsContainer:first').height()
+			,	popupContainer = mapContainer.parent('#gmpWidgetMapPopupWnd')
+			,	popupWidth = ''
+			,	popupHeight = ''
+			,	bodyWidth = jQuery('body').width();
+
+			if(bodyWidth < mapContainerWidth) {
+				mapContainerWidth = bodyWidth - 40;
+			}
+			else if((bodyWidth - mapContainerWidth) < 40){
+				mapContainerWidth = mapContainerWidth - (bodyWidth - mapContainerWidth + 40);
+			}
+			popupWidth = mapContainerWidth;
+			popupHeight = mapContainerHeight;
+
+			if(!popupContainer.hasClass('ui-dialog-content'))
+				popupContainer.dialog({
+					modal:    true
+				,	autoOpen: false
+				,	width:	popupWidth + 40
+				,	height: popupHeight + 70
+				});
+			popupContainer.dialog('open');
+			mapContainer.css({
+				width: '100%'
+			});
+			mapContainer.show();
+			newMap.refresh();
+		});
+		img.show();
+	}
 	g_gmlAllMaps.push( newMap );
 }
 function gmpGetMapInfoById(id) {
@@ -62,4 +101,26 @@ function gmpGetMapByViewId(viewId) {
 		}
 	}
 	return false;
+}
+function gmpGetMapImgSrc(map) {
+	var imgSize = map._mapParams.img_width ? map._mapParams.img_width : 175;
+	imgSize += 'x';
+	imgSize += map._mapParams.img_height ? map._mapParams.img_height : 175;
+
+	var reqParams = {
+		center: map._mapParams.map_center.coord_x+ ','+ map._mapParams.map_center.coord_y
+	,	zoom: map._mapParams.zoom
+	,	size: imgSize
+	,	maptype: map._mapParams.type
+	,	sensor: 'false'
+	,	language: map._mapParams.language
+	};
+	var reqStr = (GMP_DATA.isHttps ? 'https' : 'http')+ '://maps.google.com/maps/api/staticmap?'+ jQuery.param(reqParams);
+
+	if(map._markers && map._markers.length) {
+		for(var i in map._markers) {
+			reqStr += '&markers=color:green|label:none|'+ map._markers[i]._markerObj.coord_x+ ','+ map._markers[i]._markerObj.coord_y;
+		}
+	}
+	return reqStr;
 }

@@ -399,6 +399,16 @@ input[type="color"] {
 	border: 1px solid #000 !important;
 	line-height: 31px;
 }
+/* Fix for WP 4.4 */
+.supsystic-plugin .button-primary,
+.ui-dialog .button-primary {
+	text-shadow: none;
+}
+.supsystic-plugin .button.button-primary.button-hero,
+.ui-dialog .button.button-primary.button-hero{
+	box-shadow: none;
+}
+/*****/
 .supsystic-plugin .wp-media-buttons .button,
 .supsystic-plugin .wp-media-buttons .button-primary,
 .supsystic-plugin .button.button-sup-small,
