@@ -154,7 +154,7 @@
 
 	function custom_search_form($form) {
 		$form = '<aside id="searchform_container"><form role="search" method="get" id="searchform" action="' . home_url('/') . '" >
-		<input type="text" class="field" value="' . get_search_query() . '" name="s" id="s" placeholder="Buscar"/>
+		<input type="text" class="field" value="' . get_search_query() . '" name="s" id="s" placeholder="Chercher"/>
 		<input type="submit" class="submit" id="searchsubmit" value="' . esc_attr__('S') . '"/>
 		</form></aside>';
 
