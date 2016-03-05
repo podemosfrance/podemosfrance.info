@@ -15,8 +15,8 @@
 		<nav class="rrss-podemos">
 			<ul>
 				<li><a class="twitter" target="_blank" href="https://twitter.com/podemosfrance" title="Profil Twitter de Podemos France"></a></li>
-				<li><a class="fb" target="_blank" href="https://www.facebook.com/pages/Podemos-France/566757173469992" title="Page Facebook de Podemos France"></a></li>
-				<li><a class="youtube" target="_blank" href="https://www.youtube.com/channel/UC0gAbpPqGw6_zPfzEHp4KRw" title="Canal Youtube de Podemos France"></a></li>
+				<li><a class="fb" target="_blank" href="https://www.facebook.com/podemosfrance" title="Page Facebook de Podemos France"></a></li>
+<!--				<li><a class="youtube" target="_blank" href="https://www.youtube.com/channel/UC0gAbpPqGw6_zPfzEHp4KRw" title="Canal Youtube de Podemos France"></a></li> -->
 			</ul>
 		</nav>
 	</div>
